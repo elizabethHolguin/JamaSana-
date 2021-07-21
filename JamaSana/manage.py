@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
@@ -6,6 +6,10 @@ import sys
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'JamaSana.settings')
+    log_stdout = open("logger_stdout.log", "a")
+    log_err = open("logger_stderr.log", "a")
+    sys.stdout = log_stdout
+    sys.stderr = log_err
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -16,6 +20,3 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-
-if __name__ == '__main__':
-    main()
