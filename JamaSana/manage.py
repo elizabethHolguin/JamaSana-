@@ -6,8 +6,8 @@ import sys
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'JamaSana.settings')
-    log_stdout = open("logger_stdout.log", "a")
-    log_err = open("logger_stderr.log", "a")
+    log_stdout = open("logger_stdout.log", "a+")
+    log_err = open("logger_stderr.log", "a+")
     sys.stdout = log_stdout
     sys.stderr = log_err
     try:
