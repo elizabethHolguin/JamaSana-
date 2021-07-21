@@ -10,7 +10,10 @@ urlpatterns = [
     path('allcomidas', views.comidasAll),
     path('comida/<int:pk>', views.comida),
     path('allpedidos', views.pedidosAll),
+    path('allpedidosuser/<int:pk>', views.pedidosCliente),
     path('pedido/<int:pk>', views.pedido),
+    path('detallepedido/<int:pk>', views.detalle_pedido),
+
 ]
 router = routers.DefaultRouter()
 router.register('categorias', views.CategoriaViewSet,'categorias')

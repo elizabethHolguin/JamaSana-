@@ -1,6 +1,10 @@
 
 from django.db import models
 from django.forms import ModelForm
+
+import os
+from django.dispatch import receiver
+
 # Create your models here.
 class Configuracion(models.Model):
     dolares_por_kilometros = models.FloatField()
@@ -33,15 +37,30 @@ class Perfil(models.Model):
     def __str__(self):
         return self.nombre
 
+def get_upload_to_perfil_e(instance, filename):
+    folder_name = 'perfilE'
+    #print(instance.hueca_id)
+    return os.path.join(folder_name, filename)
+
 class PerfilE(models.Model):
-    nombre=models.CharField(max_length=200)
-    imagen=models.CharField(max_length=200)
+    nombre = models.CharField(max_length=200)
+    imagen = models.ImageField(null=True,blank=True,upload_to=get_upload_to_perfil_e)
 
     class Meta:
         verbose_name = "Perfil_E"
 
     def __str__(self):
         return self.nombre
+
+@receiver(models.signals.post_delete, sender=PerfilE)
+def auto_delete_file_on_delete_PerfilE(sender, instance, **kwargs):
+    """
+    Deletes file from filesystem
+    when corresponding `MediaFile` object is deleted.
+    """
+    if instance.imagen:
+        if os.path.isfile(instance.imagen.path):
+            os.remove(instance.imagen.path)
 
 
 class PerfilParametrizado(models.Model):

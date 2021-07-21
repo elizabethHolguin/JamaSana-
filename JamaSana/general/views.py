@@ -264,7 +264,8 @@ def create_categorias(request,pk):
 def categoriasPP(request,pk):
 
     if(request.method=='GET' and request.user.is_authenticated):
-        registros = PerfilParametrizado.objects.filter(perfil_parametrizado=pk)
+        perfil = generics.get_object_or_404(PerfilParametrizado,id=pk)
+        registros = CategoriasPerfilParametrizado.objects.filter(perfil_parametrizado=perfil)
 
         if  len(registros) == 0:
             return Response({'message': 'No hay categorias anexadas a este perfil'},status=status.HTTP_404_NOT_FOUND)

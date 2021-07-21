@@ -379,16 +379,8 @@ def cliente(request, pk):
     if(request.method=='GET' and request.user.is_authenticated):
         data = generics.get_object_or_404(Cliente,id=pk)
         if data is not None:
-            user = {}
-            user['id']=pk
-            user['id_user'] = data.user.id
-            user['username'] = data.user.username
-            user['first_name'] = data.user.first_name
-            user['last_name']= data.user.last_name
-            user['email'] = data.user.email
-            user['direccion'] = data.direccion
-            user['fecha_nacimiento'] = data.fecha_nacimiento
-            return Response(user,status=status.HTTP_200_OK)
+            serializer = ClienteSerializer(data, many=False)
+            return Response(serializer.data,status=status.HTTP_200_OK)
         return Response({'message': 'Cliente no existe'},status=status.HTTP_400_BAD_REQUEST) 
 
     elif(request.method=='PUT' and request.user.is_authenticated):

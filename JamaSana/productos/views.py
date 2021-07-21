@@ -1,3 +1,4 @@
+from usuarios.models import Cliente
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
 
@@ -169,6 +170,23 @@ def pedidosAll(request):
     return Response(serializer.data,status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([AllowAny])
+def pedidosCliente(request,pk):
+
+    if(request.method=='GET' and request.user.is_authenticated):
+        usuario = generics.get_object_or_404(Cliente,id=pk)
+        data = Pedido.objects.filter(id_cliente=usuario)
+        serializer = PedidoSerializer(data, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    msg={
+        'error':'Permission Denied!'
+    }
+    return Response(msg,status=status.HTTP_403_FORBIDDEN)
+
+
 @api_view(['GET','POST','PUT','DELETE'])
 @authentication_classes([SessionAuthentication, BasicAuthentication,TokenAuthentication])
 @permission_classes([AllowAny])
@@ -200,6 +218,52 @@ def pedido(request, pk):
 
     elif(request.method=='DELETE' and request.user.is_authenticated):
         data = generics.get_object_or_404(Pedido,id=pk)
+        if data is not None:
+            data.delete()
+            msg={
+                'message':'Pedido eliminado exitosamente'
+            }
+            return Response(msg,status=status.HTTP_200_OK)
+        return Response({'message': 'Pedido no existe'},status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+        msg={
+            'error':'Permission Denied!'
+        }
+        return Response(msg,status=status.HTTP_403_FORBIDDEN)
+
+@api_view(['GET','POST','PUT','DELETE'])
+@authentication_classes([SessionAuthentication, BasicAuthentication,TokenAuthentication])
+@permission_classes([AllowAny])
+def detalle_pedido(request, pk):
+
+    if(request.method=='GET'):
+        pedido = generics.get_object_or_404(Pedido,id=pk)
+        data = generics.get_object_or_404(DetallePedido,id_pedido=pedido)
+        if data is not None:
+            serializer = DetallePedidoSerializer(data, many=False)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response({'message': 'Pedido no existe'},status=status.HTTP_400_BAD_REQUEST)
+
+    elif(request.method=='POST' and request.user.is_authenticated):
+        serializer = DetallePedidoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)  
+
+    elif(request.method=='PUT' and request.user.is_authenticated):
+        data = generics.get_object_or_404(DetallePedido,id=pk)
+        if data is not None:
+            serializer = DetallePedidoSerializer(data, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data,status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Pedido no existe'},status=status.HTTP_400_BAD_REQUEST)
+
+    elif(request.method=='DELETE' and request.user.is_authenticated):
+        data = generics.get_object_or_404(DetallePedido,id=pk)
         if data is not None:
             data.delete()
             msg={
