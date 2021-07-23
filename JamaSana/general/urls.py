@@ -9,7 +9,7 @@ urlpatterns = [
     path('configuracion/<int:pk>', views.configuracion),
     path('allperfiles', views.perfilAll),
     path('perfil/<int:pk>', views.perfil),
-    path('allperfilesE)', views.perfilEAll),
+    path('allperfilesE', views.perfilEAll),
     path('allpefilesP',views.perfilParametrizadoAll),
     path('perfilP/<int:pk>', views.perfilParametrizado),
     path('obtenerCategorias', views.get_categorias_perfil),
