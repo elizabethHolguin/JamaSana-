@@ -281,6 +281,7 @@ def registrar(request):
             cliente = Cliente().crearCliente(user,direccion,fecha_nacimiento)
             if cliente is not None:
                 data2 = {
+                    "id": cliente.id,
                     "username": username,
                     "email": email,
                     "first_name": first_name,
