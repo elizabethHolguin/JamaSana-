@@ -66,8 +66,8 @@ class Comidas(models.Model):
     precio = models.FloatField(default=0)
     calorias_totales = models.FloatField(default=0)
     imagen = models.ImageField(upload_to=get_upload_to_comida)
-    id_categoria = models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
-    id_vendedor = models.ForeignKey("usuarios.Vendedor", on_delete=models.DO_NOTHING)
+    id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    id_vendedor = models.ForeignKey("usuarios.Vendedor", on_delete=models.CASCADE)
 
     class ComidasForm(ModelForm):
         class Meta:
