@@ -164,7 +164,7 @@ def comida(request, pk):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication,TokenAuthentication])
 @permission_classes([AllowAny])
-def obtener_comidas(request,pk):
+def obtener_comidas(request):
 
     if(request.method=='POST' and request.user.is_authenticated):
         categorias = request.data.get("categorias")
