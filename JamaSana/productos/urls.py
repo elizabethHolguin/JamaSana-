@@ -9,6 +9,7 @@ urlpatterns = [
     path('categoria/<int:pk>', views.categoria),
     path('allcomidas', views.comidasAll),
     path('comida/<int:pk>', views.comida),
+    path('obtenerComidas', views.obtener_comidas),
     path('allpedidos', views.pedidosAll),
     path('allpedidosuser/<int:pk>', views.pedidosCliente),
     path('pedido/<int:pk>', views.pedido),
