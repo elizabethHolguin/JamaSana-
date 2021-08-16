@@ -293,7 +293,7 @@ def categoriasPP(request,pk):
             perfilPP = generics.get_object_or_404(PerfilParametrizado,id=pk)
             categoriaPP = generics.get_object_or_404(Categoria,id=categoria)
             if categoriaPP is not None:
-                resultado = CategoriasPerfilParametrizado.create(perfil_parametrizado=perfilPP,categoria=categoriaPP)
+                resultado = CategoriasPerfilParametrizado().create(perfil_parametrizado=perfilPP,categoria=categoriaPP)
                 if resultado is None:
                     return Response({'message': 'No se pudo anexar la categoria con el perfil'},status=status.HTTP_400_BAD_REQUEST)
                 return Response({'message': 'Categoria pudo ser anexada al perfil'},status=status.HTTP_200_OK)
