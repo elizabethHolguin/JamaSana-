@@ -252,7 +252,7 @@ def create_categorias(request,pk):
             if (len(categoriasPP) - x) != 0:
                 return Response({'message': 'Hubieron categorias que no pudieron ser creadas'},status=status.HTTP_400_BAD_REQUEST)
             return Response({'message': 'Categorias anexadas al perfil parametrizado'},status=status.HTTP_200_OK)
-        return Response({'message': 'No se ha enviado categoria a anexar al perfil'},status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'No se ha enviado lista de categorias'},status=status.HTTP_400_BAD_REQUEST)
             
         
     msg={
