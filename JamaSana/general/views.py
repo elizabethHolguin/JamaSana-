@@ -244,7 +244,7 @@ def create_categorias(request,pk):
             perfilPP = generics.get_object_or_404(PerfilParametrizado,id=pk)
             categoriasPP = Categoria.objects.filter(nombre__in=categorias)
             print(categoria)
-            if (len(categoriasPP) == 0:
+            if len(categoriasPP) == 0:
                 return Response({'message': 'No se encontro ninguna categoria'},status=status.HTTP_404_NOT_FOUND)
             for categoria in categoriasPP:
                 resultado = CategoriasPerfilParametrizado.create(perfil_parametrizado=perfilPP,categoria=categoria)
