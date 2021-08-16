@@ -363,7 +363,7 @@ def get_categorias_perfil(request):
         categorias_obtenidas = []
 
         for categoria in categorias:
-            categorias_obtenidas.append(categoria.nombre)
+            categorias_obtenidas.append(categoria.id)
 
         data = {
             'categorias': categorias_obtenidas
