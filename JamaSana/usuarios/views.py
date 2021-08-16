@@ -109,6 +109,7 @@ def login_admin(request):
         admin = Administrador.objects.get(user=user)
         token, created = Token.objects.get_or_create(user=user)
         data = {
+            "id": admin.id,
             "nombre": admin.user.first_name,
             "apellido": admin.user.last_name,
             "username": admin.user.username,
@@ -136,6 +137,7 @@ def login_vendedor(request):
         vendedor = Vendedor.objects.get(user=user)
         token, created = Token.objects.get_or_create(user=user)
         data = {
+            "id": vendedor.id,
             "nombre": vendedor.user.first_name,
             "apellido": vendedor.user.last_name,
             "username": vendedor.user.username,
