@@ -246,7 +246,9 @@ def create_categorias(request,pk):
             if len(categoriasPP) == 0:
                 return Response({'message': 'No se encontro ninguna categoria'},status=status.HTTP_404_NOT_FOUND)
             for categoria in categoriasPP:
-                resultado = CategoriasPerfilParametrizado.create(perfil_parametrizado=perfilPP,categoria=categoria)
+                
+                resultado = CategoriasPerfilParametrizado().create(perfil_parametrizado=perfilPP,categoria=categoria)
+                
                 if resultado is not None:
                     x += 1
             if (len(categoriasPP) - x) != 0:
