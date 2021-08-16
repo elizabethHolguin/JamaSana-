@@ -159,6 +159,27 @@ def comida(request, pk):
             'error':'Permission Denied!'
         }
         return Response(msg,status=status.HTTP_403_FORBIDDEN)
+    
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication,TokenAuthentication])
+@permission_classes([AllowAny])
+def obtener_comidas(request,pk):
+
+    if(request.method=='POST' and request.user.is_authenticated):
+        categorias = request.data.get("categorias")
+        if categorias is not None:
+            comidas = Comidas.objects.filter(id_categoria__in=categorias)
+            if len(comidas) == 0:
+                return Response({'message': 'No se encontro ninguna comida anexada a las categorias enviadas'},status=status.HTTP_404_NOT_FOUND)
+            serializer = ComidasSerializer(comidas, many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)          
+        return Response({'message': 'No se ha enviado lista de categorias'},status=status.HTTP_400_BAD_REQUEST)
+     
+    msg={
+        'error':'Permission Denied!'
+    }
+    return Response(msg,status=status.HTTP_403_FORBIDDEN)
 
 
 @api_view(['GET'])
